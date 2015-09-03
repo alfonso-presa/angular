@@ -1,4 +1,4 @@
-import {IS_DART, Type, Json, isBlank, stringify} from 'angular2/src/facade/lang';
+import {IS_DART, Type, Json, isBlank, stringify, RegExpWrapper, isPresent} from 'angular2/src/facade/lang';
 import {BaseException} from 'angular2/src/facade/exceptions';
 import {ListWrapper, SetWrapper} from 'angular2/src/facade/collection';
 import {PromiseWrapper, Promise} from 'angular2/src/facade/async';
@@ -113,9 +113,12 @@ export class TemplateCompiler {
                  .then((stylesAndNormalizedViewDirMetas: any[]) => {
                    var childPromises = [];
                    var normalizedViewDirMetas = stylesAndNormalizedViewDirMetas.slice(1);
+                   var interpolationPattern =
+                    isPresent(compMeta.template.interpolationPattern) ?
+                        RegExpWrapper.create(compMeta.template.interpolationPattern) :
+                        null;
                    var parsedTemplate = this._templateParser.parse(
-                       compMeta.template.template, normalizedViewDirMetas, compMeta.type.name);
-
+                       compMeta.template.template, normalizedViewDirMetas, compMeta.type.name, interpolationPattern);
                    var changeDetectorFactories = this._cdCompiler.compileComponentRuntime(
                        compMeta.type, compMeta.changeDetection, parsedTemplate);
                    changeDetectorFactory = changeDetectorFactories[0];
@@ -213,8 +216,11 @@ export class TemplateCompiler {
                                   directives: CompileDirectiveMetadata[],
                                   targetDeclarations: string[], targetTemplateArguments: any[][]) {
     var styleExpr = this._styleCompiler.compileComponentCodeGen(compMeta.template);
+    var interpolationPattern = isPresent(compMeta.template.interpolationPattern) ?
+                                   RegExpWrapper.create(compMeta.template.interpolationPattern) :
+                                   null;
     var parsedTemplate =
-        this._templateParser.parse(compMeta.template.template, directives, compMeta.type.name);
+        this._templateParser.parse(compMeta.template.template, directives, compMeta.type.name, interpolationPattern);
     var changeDetectorsExprs = this._cdCompiler.compileComponentCodeGen(
         compMeta.type, compMeta.changeDetection, parsedTemplate);
     var commandsExpr = this._commandCompiler.compileComponentCodeGen(

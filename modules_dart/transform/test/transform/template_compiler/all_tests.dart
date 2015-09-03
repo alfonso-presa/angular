@@ -128,6 +128,15 @@ void allTests() {
       ..toContain('$CONTEXT_ACCESSOR.b');
   });
 
+  it('should parse expressions with custom pattern in inline templates.', () async {
+    var inputPath =
+        'template_compiler/inline_expression_files/hello2.ng_deps.dart';
+    var expected = readFile(
+        'template_compiler/inline_expression_files/expected/hello2.ng_deps.dart');
+    var output = await process(new AssetId('a', inputPath));
+    _formatThenExpectEquals(output, expected);
+  });
+
   it('should parse simple methods in inline templates.', () async {
     fooComponentMeta.template = new CompileTemplateMetadata(
         template: '<button (click)="action()">go</button>',

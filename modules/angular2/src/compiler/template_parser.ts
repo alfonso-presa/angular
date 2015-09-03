@@ -81,9 +81,10 @@ export class TemplateParser {
   constructor(private _exprParser: Parser, private _schemaRegistry: ElementSchemaRegistry,
               private _htmlParser: HtmlParser) {}
 
-  parse(template: string, directives: CompileDirectiveMetadata[],
-        sourceInfo: string): TemplateAst[] {
-    var parseVisitor = new TemplateParseVisitor(directives, this._exprParser, this._schemaRegistry);
+  parse(template: string, directives: CompileDirectiveMetadata[], sourceInfo: string,
+        interpolationPattern?: RegExp): TemplateAst[] {
+    var parseVisitor = new TemplateParseVisitor(directives, this._exprParser, this._schemaRegistry,
+                                                interpolationPattern);
     var result =
         htmlVisitAll(parseVisitor, this._htmlParser.parse(template, sourceInfo), EMPTY_COMPONENT);
     if (parseVisitor.errors.length > 0) {
@@ -101,7 +102,8 @@ class TemplateParseVisitor implements HtmlAstVisitor {
   ngContentCount: number = 0;
 
   constructor(directives: CompileDirectiveMetadata[], private _exprParser: Parser,
-              private _schemaRegistry: ElementSchemaRegistry) {
+              private _schemaRegistry: ElementSchemaRegistry,
+              private _interpolationPattern: RegExp) {
     this.selectorMatcher = new SelectorMatcher();
     ListWrapper.forEachWithIndex(directives,
                                  (directive: CompileDirectiveMetadata, index: number) => {
@@ -115,7 +117,7 @@ class TemplateParseVisitor implements HtmlAstVisitor {
 
   private _parseInterpolation(value: string, sourceInfo: string): ASTWithSource {
     try {
-      return this._exprParser.parseInterpolation(value, sourceInfo);
+      return this._exprParser.parseInterpolation(value, sourceInfo, this._interpolationPattern);
     } catch (e) {
       this._reportError(`${e}`);  // sourceInfo is already contained in the AST
       return this._exprParser.wrapLiteralPrimitive('ERROR', sourceInfo);

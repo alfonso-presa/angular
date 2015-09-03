@@ -47,7 +47,7 @@ import {
 
 var _implicitReceiver = new ImplicitReceiver();
 // TODO(tbosch): Cannot make this const/final right now because of the transpiler...
-var INTERPOLATION_REGEXP = /\{\{(.*?)\}\}/g;
+var INTERPOLATION_REGEXP: RegExp = /\{\{(.*?)\}\}/g;
 
 class ParseException extends BaseException {
   constructor(message: string, input: string, errLocation: string, ctxLocation?: any) {
@@ -65,22 +65,23 @@ export class Parser {
     this._reflector = isPresent(providedReflector) ? providedReflector : reflector;
   }
 
-  parseAction(input: string, location: any): ASTWithSource {
-    this._checkNoInterpolation(input, location);
+  parseAction(input: string, location: any, interpolationPattern?: RegExp): ASTWithSource {
+    this._checkNoInterpolation(input, location, interpolationPattern);
     var tokens = this._lexer.tokenize(input);
     var ast = new _ParseAST(input, location, tokens, this._reflector, true).parseChain();
     return new ASTWithSource(ast, input, location);
   }
 
-  parseBinding(input: string, location: any): ASTWithSource {
-    this._checkNoInterpolation(input, location);
+  parseBinding(input: string, location: any, interpolationPattern?: RegExp): ASTWithSource {
+    this._checkNoInterpolation(input, location, interpolationPattern);
     var tokens = this._lexer.tokenize(input);
     var ast = new _ParseAST(input, location, tokens, this._reflector, false).parseChain();
     return new ASTWithSource(ast, input, location);
   }
 
-  parseSimpleBinding(input: string, location: string): ASTWithSource {
-    this._checkNoInterpolation(input, location);
+  parseSimpleBinding(input: string, location: string,
+                     interpolationPattern?: RegExp): ASTWithSource {
+    this._checkNoInterpolation(input, location, interpolationPattern);
     var tokens = this._lexer.tokenize(input);
     var ast = new _ParseAST(input, location, tokens, this._reflector, false).parseSimpleBinding();
     return new ASTWithSource(ast, input, location);
@@ -91,8 +92,9 @@ export class Parser {
     return new _ParseAST(input, location, tokens, this._reflector, false).parseTemplateBindings();
   }
 
-  parseInterpolation(input: string, location: any): ASTWithSource {
-    var parts = StringWrapper.split(input, INTERPOLATION_REGEXP);
+  parseInterpolation(input: string, location: any, interpolationPattern?: RegExp): ASTWithSource {
+    var parts = StringWrapper.split(
+        input, isPresent(interpolationPattern) ? interpolationPattern : INTERPOLATION_REGEXP);
     if (parts.length <= 1) {
       return null;
     }
@@ -121,8 +123,9 @@ export class Parser {
     return new ASTWithSource(new LiteralPrimitive(input), input, location);
   }
 
-  private _checkNoInterpolation(input: string, location: any): void {
-    var parts = StringWrapper.split(input, INTERPOLATION_REGEXP);
+  private _checkNoInterpolation(input: string, location: any, interpolationPattern?: RegExp): void {
+    var parts = StringWrapper.split(
+        input, isPresent(interpolationPattern) ? interpolationPattern : INTERPOLATION_REGEXP);
     if (parts.length > 1) {
       throw new ParseException('Got interpolation ({{}}) where expression was expected', input,
                                `at column ${this._findInterpolationErrorColumn(parts, 1)} in`,
