@@ -31,9 +31,11 @@ class TerminalAnnotation {
 class DecoratedParent {}
 class DecoratedChild extends DecoratedParent {}
 
-var SampleDecorator: (...args) => any = makeDecorator(TerminalAnnotation);
+class SampleAnnotation {}
 
-@SampleDecorator
+var SampleDecorator: (...args) => any = makeDecorator(SampleAnnotation);
+
+@SampleDecorator()
 class SampleClass {
 }
 
@@ -108,11 +110,11 @@ export function main() {
       describe('reflectRegistry', () => {
         it('should add annotated objects to the registry', () => {
           var MyClass = (<any>SampleDecorator()).Class(<any>{constructor: function() {}});
-          expect(reflectRegistry.getForAnnotation(SampleDecorator)).toContain(MyClass);
+          expect(reflectRegistry.getForAnnotation(SampleAnnotation)).toContain(MyClass);
         });
 
         it('should add annotated classes to the registry', () => {
-          expect(reflectRegistry.getForAnnotation(SampleDecorator)).toContain(SampleClass);
+          expect(reflectRegistry.getForAnnotation(SampleAnnotation)).toContain(SampleClass);
         });
       });
 

@@ -1,5 +1,6 @@
 export * from './metadata';
 export * from './change_detection';
+export * from './auto_configuration';
 export * from './core';
 export * from './di';
 export * from './directives';
