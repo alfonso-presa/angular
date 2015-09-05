@@ -66,6 +66,8 @@ export interface TypeDecorator {
    * Generate a class from the definition and annotate it with {@link TypeDecorator#annotations}.
    */
   Class(obj: ClassDefinition): Type;
+
+  _Class(obj: ClassDefinition): Type;
 }
 
 function extractAnnotation(annotation: any): any {
@@ -230,6 +232,22 @@ if (!(Reflect && Reflect.getMetadata)) {
   throw 'reflect-metadata shim is required when using class decorators';
 }
 
+export class ReflectRegistry {
+  public _annotationRegistry = {};
+
+  constructor(){};
+
+  add(annotation: any, cls: any): void {
+    var annotationList: Array<any> =
+        this._annotationRegistry[annotation] || (this._annotationRegistry[annotation] = []);
+    annotationList.push(cls);
+  }
+
+  getForAnnotation(annotation): Array<any> { return this._annotationRegistry[annotation]; }
+}
+
+export var reflectRegistry: ReflectRegistry = new ReflectRegistry();
+
 export function makeDecorator(annotationCls, chainFn: (fn: Function) => void = null): (...args) =>
     (cls: any) => any {
   function DecoratorFactory(objOrType): (cls: any) => any {
@@ -248,8 +266,14 @@ export function makeDecorator(annotationCls, chainFn: (fn: Function) => void = n
         return cls;
       };
       TypeDecorator.annotations = chainAnnotation;
-      TypeDecorator.Class = Class;
+      TypeDecorator.Class = function(clsDef: ClassDefinition): Type {
+        var constructor = this._Class(clsDef);
+        reflectRegistry.add(DecoratorFactory, constructor);
+        return constructor;
+      };
+      TypeDecorator._Class = Class;
       if (chainFn) chainFn(TypeDecorator);
+      reflectRegistry.add(DecoratorFactory, TypeDecorator);
       return TypeDecorator;
     }
   }
