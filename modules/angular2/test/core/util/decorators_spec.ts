@@ -10,7 +10,12 @@ import {
   xit,
 } from 'angular2/test_lib';
 
-import {makeDecorator, makeParamDecorator, Class} from 'angular2/src/core/util/decorators';
+import {
+  makeDecorator,
+  makeParamDecorator,
+  Class,
+  reflectRegistry
+} from 'angular2/src/core/util/decorators';
 import {global} from 'angular2/src/core/facade/lang';
 import {Inject} from 'angular2/angular2';
 import {reflector} from 'angular2/src/core/reflection/reflection';
@@ -25,6 +30,12 @@ class TerminalAnnotation {
 
 class DecoratedParent {}
 class DecoratedChild extends DecoratedParent {}
+
+var SampleDecorator: (...args) => any = makeDecorator(TerminalAnnotation);
+
+@SampleDecorator
+class SampleClass {
+}
 
 export function main() {
   var Reflect = global.Reflect;
@@ -92,6 +103,17 @@ export function main() {
         expect(proto.prototype).toEqual(undefined);
 
         expect(reflector.annotations(MyClass)[0].arg).toEqual('test-works')
+      });
+
+      describe('reflectRegistry', () => {
+        it('should add annotated objects to the registry', () => {
+          var MyClass = (<any>SampleDecorator()).Class(<any>{constructor: function() {}});
+          expect(reflectRegistry.getForAnnotation(SampleDecorator)).toContain(MyClass);
+        });
+
+        it('should add annotated classes to the registry', () => {
+          expect(reflectRegistry.getForAnnotation(SampleDecorator)).toContain(SampleClass);
+        });
       });
 
       describe('errors', () => {
