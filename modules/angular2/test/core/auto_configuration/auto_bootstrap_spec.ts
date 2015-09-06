@@ -42,7 +42,7 @@ class ConfigureTests {
 }
 
 export function main() {
-  var fakeDoc, el, el2, testBindings, lightDom;
+  var fakeDoc, el, testBindings;
 
   describe('automatic bootstraping', () => {
     beforeEach(() => {

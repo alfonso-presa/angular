@@ -1,9 +1,11 @@
 /// <reference path="../../../angular2/typings/rx/rx.d.ts" />
 
 import {Component, View, NgFor, Autoconfigured} from 'angular2/angular2';
-export {autobootstrap as main} from 'angular2/angular2';
+import {autobootstrap} from 'angular2/angular2';
 import {Http, Response} from 'angular2/http';
 import {ObservableWrapper} from 'angular2/src/core/facade/async';
+
+export var main = autobootstrap;
 
 @Autoconfigured()
 @Component({selector: 'http-app'})

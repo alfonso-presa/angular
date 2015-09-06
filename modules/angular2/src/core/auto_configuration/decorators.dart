@@ -7,7 +7,7 @@ export 'metadata.dart';
  * {@link ConfigurationMetadata}.
  */
 class Configuration extends ConfigurationMetadata {
-  const Configuration(dynamic priority) : super(priority);
+  const Configuration() : super();
 }
 
 /**

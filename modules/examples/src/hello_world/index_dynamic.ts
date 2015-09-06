@@ -1,3 +1,3 @@
-import {HelloCmp} from './index';
-import {bootstrap} from 'angular2/bootstrap';
-export {main} from './index';
+import {autobootstrap} from 'angular2/angular2';
+
+export var main = autobootstrap;
