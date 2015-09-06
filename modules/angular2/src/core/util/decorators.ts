@@ -256,7 +256,7 @@ export class ReflectRegistry {
   }
 }
 
-export var reflectRegistry: ReflectRegistry = new ReflectRegistry();
+export const reflectRegistry: ReflectRegistry = new ReflectRegistry();
 
 export function makeDecorator(annotationCls, chainFn: (fn: Function) => void = null): (...args) =>
     (cls: any) => any {
