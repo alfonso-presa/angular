@@ -1,4 +1,4 @@
-import {autobootstrap} from 'angular2/angular2';
+export {autobootstrap} from 'angular2/angular2';
 import {
   ElementRef,
   Component,
@@ -7,11 +7,14 @@ import {
   Injectable,
   Renderer,
   Autoconfigured,
-  Configuration
+  Configuration,
+  autobootstrap
 } from 'angular2/angular2';
 
 // Cannot export directly because of dart...
-export var main = autobootstrap;
+export function main () {
+  autobootstrap();
+}
 
 // A service available to the Injector, used by the HelloCmp component.
 @Injectable()

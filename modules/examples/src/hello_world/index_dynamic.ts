@@ -1,3 +1,5 @@
-import {autobootstrap} from 'angular2/angular2';
+import {autobootstrap} from './index';
 
-export var main = autobootstrap;
+export function main () {
+  autobootstrap();
+}
