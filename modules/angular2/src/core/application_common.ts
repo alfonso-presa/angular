@@ -10,6 +10,7 @@ import {
   stringify
 } from 'angular2/src/core/facade/lang';
 import {BrowserDomAdapter} from 'angular2/src/core/dom/browser_adapter';
+import {getAutoconfiguredBindings} from 'angular2/src/core/auto_configuration/auto_configuration';
 import {DOM} from 'angular2/src/core/dom/dom_adapter';
 import {Compiler, CompilerCache} from './compiler/compiler';
 import {Reflector, reflector} from 'angular2/src/core/reflection/reflection';
@@ -344,6 +345,12 @@ function _createAppInjector(appComponentType: Type, bindings: Array<Type | Bindi
   var mergedBindings: any[] =
       isPresent(bindings) ? ListWrapper.concat(_injectorBindings(appComponentType), bindings) :
                             _injectorBindings(appComponentType);
+
+  var autoconfiguredBindings: any[] = getAutoconfiguredBindings(appComponentType);
+  if(isPresent(autoconfiguredBindings)) {
+    mergedBindings = ListWrapper.concat(autoconfiguredBindings, mergedBindings);
+  }
+
   mergedBindings.push(bind(NgZone).toValue(zone));
   return _rootInjector.resolveAndCreateChild(mergedBindings);
 }
