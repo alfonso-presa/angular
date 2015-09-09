@@ -10,7 +10,7 @@ class ReflectRegistry {
         decl.metadata.where((m) => m.type.reflectedType == annotation).forEach((m) {
           list.add(decl.reflectedType);
         });
-    	});
+      });
     });
     return list;
   }
