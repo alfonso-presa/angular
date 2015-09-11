@@ -3,12 +3,6 @@ import {Renderer} from 'angular2/render';
 import {Autoconfigured} from 'angular2/auto_configuration';
 import {GreetingService} from './greeting_service';
 
-// A service available to the Injector, used by the HelloCmp component.
-@Injectable()
-class GreetingService {
-  greeting: string = 'hello';
-}
-
 // Directives are light-weight. They don't allow new
 // expression contexts (use @Component for those needs).
 @Directive({selector: '[red]'})

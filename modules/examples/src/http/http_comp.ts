@@ -1,4 +1,3 @@
-export {autobootstrap} from 'angular2/auto_configuration';
 import {Component, View, NgFor, Autoconfigured} from 'angular2/angular2';
 import {Http, Response} from 'angular2/http';
 import {ObservableWrapper} from 'angular2/src/core/facade/async';
