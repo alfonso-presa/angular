@@ -16,10 +16,6 @@ import {
   Autoconfigured
 } from 'angular2/src/core/auto_configuration/auto_configuration';
 
-import {
-  autobootstrap
-} from 'angular2/src/core/auto_configuration/automatic_bootstrap';
-
 import {bootstrap, ApplicationRef} from 'angular2/src/core/application';
 import {Component, Directive, View} from 'angular2/metadata';
 import {DOM} from 'angular2/src/core/dom/dom_adapter';
@@ -48,7 +44,7 @@ class ConfigureTests {
 export function main() {
   var fakeDoc, el, testBindings;
 
-  describe('automatic bootstraping', () => {
+  describe('regular bootstrapping with auto configuration', () => {
     beforeEach(() => {
       fakeDoc = DOM.createHtmlDocument();
       el = DOM.createElement('hello-app', fakeDoc);
@@ -56,8 +52,8 @@ export function main() {
       testBindings = [bind(DOCUMENT).toValue(fakeDoc)];
     });
 
-    it('should display hello world in a sample component', inject([AsyncTestCompleter], (async) => {
-         var refPromise = autobootstrap(testBindings);
+    it('should display hello world', inject([AsyncTestCompleter], (async) => {
+         var refPromise = bootstrap(HelloRootCmp, testBindings);
          refPromise.then((ref) => {
            expect(el).toHaveText('hello world!');
            async.done();
