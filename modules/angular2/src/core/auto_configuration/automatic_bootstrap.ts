@@ -6,7 +6,7 @@ import {isPresent, Type} from 'angular2/src/core/facade/lang';
 import {ListWrapper} from 'angular2/src/core/facade/collection';
 
 import {ReflectionCapabilities} from 'angular2/src/core/reflection/reflection_capabilities';
-import {getConfigurationBindings} from './auto_configuration';
+import {getConfigurationBindings} from './helpers';
 
 export function autobootstrap(bindings?: any[]): Promise<ApplicationRef[]> {
   var reflector: ReflectionCapabilities = new ReflectionCapabilities();

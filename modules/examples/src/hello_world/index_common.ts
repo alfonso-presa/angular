@@ -7,7 +7,8 @@ import {
   Renderer,
   Autoconfigured
 } from 'angular2/angular2';
-import  {GreetingService} from './greeting_service';
+
+import {GreetingService} from './greeting_service';
 
 // Directives are light-weight. They don't allow new
 // expression contexts (use @Component for those needs).

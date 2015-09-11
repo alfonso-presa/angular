@@ -10,7 +10,7 @@ import {
   stringify
 } from 'angular2/src/core/facade/lang';
 import {BrowserDomAdapter} from 'angular2/src/core/dom/browser_adapter';
-import {getAutoconfiguredBindings} from 'angular2/src/core/auto_configuration/auto_configuration';
+import {getAutoconfiguredBindings} from 'angular2/src/core/auto_configuration/helpers';
 import {DOM} from 'angular2/src/core/dom/dom_adapter';
 import {Compiler, CompilerCache} from './compiler/compiler';
 import {Reflector, reflector} from 'angular2/src/core/reflection/reflection';
