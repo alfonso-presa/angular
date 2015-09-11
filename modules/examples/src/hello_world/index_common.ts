@@ -5,16 +5,9 @@ import {
   View,
   Injectable,
   Renderer,
-  Autoconfigured,
-  Configuration,
-  autobootstrap
+  Autoconfigured
 } from 'angular2/angular2';
-
-// A service available to the Injector, used by the HelloCmp component.
-@Injectable()
-class GreetingService {
-  greeting: string = 'hello';
-}
+import  {GreetingService} from './greeting_service';
 
 // Directives are light-weight. They don't allow new
 // expression contexts (use @Component for those needs).
@@ -37,9 +30,6 @@ class RedDec {
   // class. The syntax supported is a basic subset of CSS selectors, for example
   // 'element', '[attr]', [attr=foo]', etc.
   selector: 'hello-app',
-  // These are services that would be created if a class in the component's
-  // template tries to inject them.
-  viewBindings: [GreetingService]
 })
 // The template for the component.
 @View({
@@ -53,7 +43,7 @@ class RedDec {
   // misspelled).
   directives: [RedDec]
 })
-//This makes the injector of this componet to take all Configuration annotated classes
+//This makes the injector of this componet take all Configuration annotated classes
 @Autoconfigured()
 export class HelloCmp {
   greeting: string;
@@ -61,11 +51,4 @@ export class HelloCmp {
   constructor(service: GreetingService) { this.greeting = service.greeting; }
 
   changeGreeting(): void { this.greeting = 'howdy'; }
-}
-
-//This represents a configuration class to make the GreetingService globally available for
-// those components that are autoconfigured.
-@Configuration()
-class HelloAppConfiguration {
-  getBindings() { return [GreetingService]; }
 }
