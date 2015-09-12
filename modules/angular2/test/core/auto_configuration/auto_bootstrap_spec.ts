@@ -16,15 +16,14 @@ import {
   Autoconfigured
 } from 'angular2/src/core/auto_configuration/auto_configuration';
 
-import {
-  autobootstrap
-} from 'angular2/src/core/auto_configuration/automatic_bootstrap';
+import {autobootstrap} from 'angular2/src/core/auto_configuration/automatic_bootstrap';
 
-import {bootstrap, ApplicationRef} from 'angular2/src/core/application';
-import {Component, Directive, View} from 'angular2/metadata';
+import {bootstrap} from 'angular2/src/core/bootstrap';
+import {ApplicationRef} from 'angular2/src/core/application';
+import {Component, View, Directive} from 'angular2/src/core/metadata';
 import {DOM} from 'angular2/src/core/dom/dom_adapter';
 import {DOCUMENT} from 'angular2/src/core/render/render';
-import {bind, Inject, Injector, Injectable} from 'angular2/di';
+import {bind, Inject, Injector, Injectable} from 'angular2/src/core/di';
 
 @Injectable()
 class Service {

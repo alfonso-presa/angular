@@ -352,7 +352,7 @@ function _createAppInjector(appComponentType: Type, bindings: Array<Type | Bindi
                             _injectorBindings(appComponentType);
 
   var autoconfiguredBindings: any[] = getAutoconfiguredBindings(appComponentType);
-  if(isPresent(autoconfiguredBindings)) {
+  if (isPresent(autoconfiguredBindings)) {
     mergedBindings = ListWrapper.concat(autoconfiguredBindings, mergedBindings);
   }
 

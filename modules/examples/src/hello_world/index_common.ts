@@ -37,7 +37,7 @@ class RedDec {
   // misspelled).
   directives: [RedDec]
 })
-//This makes the injector of this componet take all Configuration annotated classes
+// This makes the injector of this componet take all Configuration annotated classes
 @Autoconfigured()
 export class HelloCmp {
   greeting: string;

@@ -1,4 +1,5 @@
-import {bootstrap, ApplicationRef} from '../application';
+import {bootstrap} from '../bootstrap';
+import {ApplicationRef} from '../application_ref';
 import {reflectRegistry} from 'angular2/src/core/util/decorators';
 import {Configuration, Autoconfigured} from './decorators';
 import {Promise, PromiseWrapper} from 'angular2/src/core/facade/async';
