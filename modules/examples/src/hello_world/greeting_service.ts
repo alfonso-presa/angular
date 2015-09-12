@@ -16,4 +16,4 @@ export const GREETINGS_BINDINGS: any[] = [GreetingService];
 @Configuration()
 class GreetingServiceConfiguration {
   getBindings() { return [GreetingService]; }
-}
+} 
