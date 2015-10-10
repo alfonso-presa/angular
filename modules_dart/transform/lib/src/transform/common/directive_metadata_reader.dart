@@ -465,6 +465,7 @@ class _LifecycleHookVisitor extends SimpleAstVisitor<List<LifecycleHooks>> {
 class _CompileTemplateMetadataVisitor
     extends RecursiveAstVisitor<CompileTemplateMetadata> {
   ViewEncapsulation _encapsulation;
+  String _interpolationPattern = null;
   String _template;
   String _templateUrl;
   List<String> _styles;
@@ -484,6 +485,7 @@ class _CompileTemplateMetadataVisitor
 
     return new CompileTemplateMetadata(
         encapsulation: _encapsulation,
+        interpolationPattern: _interpolationPattern,
         template: _template,
         templateUrl: _templateUrl,
         styles: _styles,
@@ -502,6 +504,9 @@ class _CompileTemplateMetadataVisitor
     switch (keyString) {
       case 'encapsulation':
         _populateEncapsulation(node.expression);
+        break;
+      case 'interpolationPattern':
+        _populateInterpolationPattern(node.expression);
         break;
       case 'template':
         _populateTemplate(node.expression);
@@ -539,6 +544,10 @@ class _CompileTemplateMetadataVisitor
 
   void _populateEncapsulation(Expression value) {
     _encapsulation = _viewEncapsulationMap[value.toSource()];
+  }
+
+  void _populateInterpolationPattern(Expression value) {
+    _interpolationPattern = _expressionToString(value, 'View#interpolationPattern');
   }
 
   static final _viewEncapsulationMap =
