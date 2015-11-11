@@ -84,8 +84,8 @@ export class RuntimeMetadataResolver {
   }
 }
 
-function removeDuplicatedDirectives(directives: cpl.CompileDirectiveMetadata[]):
-    cpl.CompileDirectiveMetadata[] {
+function removeDuplicatedDirectives(
+    directives: cpl.CompileDirectiveMetadata[]): cpl.CompileDirectiveMetadata[] {
   var directivesMap = new Map<Type, cpl.CompileDirectiveMetadata>();
   directives.forEach((dirMeta) => { directivesMap.set(dirMeta.type.runtime, dirMeta); });
   return MapWrapper.values(directivesMap);
